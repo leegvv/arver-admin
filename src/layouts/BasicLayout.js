@@ -3,14 +3,19 @@ import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import './BasicLayout.less';
+import { Route, Redirect } from 'react-router-dom';
 
 const { Header, Footer, Sider, Content } = Layout;
+const SubMenu = Menu.SubMenu;
 
 class BasicLayout extends Component {
 
-    state = {
-        collapsed: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapsed: false,
+        };
+    }
 
     toggle = () => {
         this.setState({
@@ -19,6 +24,54 @@ class BasicLayout extends Component {
     }
 
     render() {
+        const menuList = [];
+        const contentList = [];
+        if (this.props.routes && this.props.routes.length > 0) {
+            for (let i = 0; i < this.props.routes.length; i++) {
+                const route = this.props.routes[i];
+                if (route.routes && route.routes.length > 0) {
+                    menuList.push(
+                        <SubMenu
+                            key={i}
+                            title={<span><Icon type={route.icon} /><span>{route.name}</span></span>}
+                        >
+                            {route.routes.map((subRoute, subIndex) => {
+                                if (subRoute.component) {
+                                    const Comp = React.lazy(() => import('../' + subRoute.component));
+                                    const compFunc = (() => {
+                                        return (<React.Suspense fallback={<div>Loading...</div>}>
+                                            <Comp routes={route.routes}/>
+                                        </React.Suspense>);
+                                    });
+                                    contentList.push(<Route key={i + '-' + subIndex} path={subRoute.path} component={compFunc}/>)
+                                }
+                                return (<Menu.Item key={i + '-' + subIndex}><Link to={subRoute.path}>{subRoute.name}</Link></Menu.Item>);
+                            })}
+                        </SubMenu>
+                    );
+
+                } else {
+                    menuList.push(
+                        <Menu.Item key={i}>
+                            <Link to={route.path}>
+                                <Icon type={route.icon} />
+                                <span>{route.name}</span>
+                            </Link>
+                        </Menu.Item>
+                    );
+                    if (route.component) {
+                        const Comp = React.lazy(() => import('../' + route.component));
+                        const compFunc = (() => {
+                            return (<React.Suspense fallback={<div>Loading...</div>}>
+                                <Comp routes={route.routes}/>
+                            </React.Suspense>);
+                        });
+                        contentList.push(<Route key={i} path={route.path} component={compFunc}/>)
+                    }
+                }
+            }
+        }
+
         return (
             <Layout className='BasicLayout'>
                 <Sider
@@ -34,18 +87,7 @@ class BasicLayout extends Component {
                         </Link>
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1">
-                            <Icon type="user" />
-                            <span>nav 1</span>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <Icon type="video-camera" />
-                            <span>nav 2</span>
-                        </Menu.Item>
-                        <Menu.Item key="3">
-                            <Icon type="upload" />
-                            <span>nav 3</span>
-                        </Menu.Item>
+                        {menuList}
                     </Menu>
                 </Sider>
                 <Layout style={{minHeight: '100vh'}}>
@@ -57,7 +99,7 @@ class BasicLayout extends Component {
                         />
                     </Header>
                     <Content style={{margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280}}>
-                        content
+                        {contentList}
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
                         Ant Design ©2018 Created by Ant UED
