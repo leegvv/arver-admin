@@ -27,9 +27,11 @@ class BasicLayout extends Component {
         const menuList = [];
         const contentList = [];
         if (this.props.routes && this.props.routes.length > 0) {
+            contentList.push(<Redirect from='/' to={this.props.routes[0].path}/>);
             for (let i = 0; i < this.props.routes.length; i++) {
                 const route = this.props.routes[i];
                 if (route.routes && route.routes.length > 0) {
+                    contentList.push(<Redirect from={route.path} to={route.routes[0].path}/>)
                     menuList.push(
                         <SubMenu
                             key={i}
