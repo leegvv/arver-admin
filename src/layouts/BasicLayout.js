@@ -1,12 +1,46 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.svg';
 import './BasicLayout.less';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import SiderMenu from '../component/SiderMenu/SiderMenu';
+import Header from './Header';
+import Footer from './Footer';
+import Media from 'react-media';
+import DocumentTitle from 'react-document-title';
+import { ContainerQuery } from 'react-container-query';
+import classNames from 'classnames';
+import Context from './MenuContext';
+import { connect } from 'react-redux';
+import PageLoading from '@/component/PageLoading';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 const SubMenu = Menu.SubMenu;
+
+const query = {
+    'screen-xs': {
+        maxWidth: 575,
+    },
+    'screen-sm': {
+        minWidth: 576,
+        maxWidth: 767,
+    },
+    'screen-md': {
+        minWidth: 768,
+        maxWidth: 991,
+    },
+    'screen-lg': {
+        minWidth: 992,
+        maxWidth: 1199,
+    },
+    'screen-xl': {
+        minWidth: 1200,
+        maxWidth: 1599,
+    },
+    'screen-xxl': {
+        minWidth: 1600,
+    },
+};
 
 class BasicLayout extends Component {
 
@@ -17,21 +51,30 @@ class BasicLayout extends Component {
         };
     }
 
-    toggle = () => {
+    handleMenuCollapse = () => {
         this.setState({
             collapsed: !this.state.collapsed,
         });
     }
 
+    getContext() {
+        const { location, breadcrumbNameMap } = this.props;
+        return {
+            location,
+            breadcrumbNameMap,
+        };
+    }
+
     render() {
         const menuList = [];
         const contentList = [];
+        const { collapsed } = this.state;
         if (this.props.routes && this.props.routes.length > 0) {
-            contentList.push(<Redirect from='/' to={this.props.routes[0].path}/>);
+            contentList.push(<Redirect key='root' from='/' exact to={this.props.routes[0].path}/>);
             for (let i = 0; i < this.props.routes.length; i++) {
                 const route = this.props.routes[i];
                 if (route.routes && route.routes.length > 0) {
-                    contentList.push(<Redirect from={route.path} to={route.routes[0].path}/>)
+                    contentList.push(<Redirect key='subRoot' from={route.path} exact to={route.routes[0].path}/>)
                     menuList.push(
                         <SubMenu
                             key={i}
@@ -41,7 +84,7 @@ class BasicLayout extends Component {
                                 if (subRoute.component) {
                                     const Comp = React.lazy(() => import('../' + subRoute.component));
                                     const compFunc = (() => {
-                                        return (<React.Suspense fallback={<div>Loading...</div>}>
+                                        return (<React.Suspense fallback={<PageLoading/>}>
                                             <Comp routes={route.routes}/>
                                         </React.Suspense>);
                                     });
@@ -64,7 +107,7 @@ class BasicLayout extends Component {
                     if (route.component) {
                         const Comp = React.lazy(() => import('../' + route.component));
                         const compFunc = (() => {
-                            return (<React.Suspense fallback={<div>Loading...</div>}>
+                            return (<React.Suspense fallback={<PageLoading/>}>
                                 <Comp routes={route.routes}/>
                             </React.Suspense>);
                         });
@@ -74,42 +117,40 @@ class BasicLayout extends Component {
             }
         }
 
-        return (
+        const layout = (
             <Layout className='BasicLayout'>
-                <Sider
-                    trigger={null}
-                    collapsible
-                    collapsed={this.state.collapsed}
-                    width="256px"
-                >
-                    <div className="sider-menu-index-logo logo" >
-                        <Link to="/">
-                            <img src={logo} alt="logo"/>
-                            <h1>Ant Design Pro</h1>
-                        </Link>
-                    </div>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        {menuList}
-                    </Menu>
-                </Sider>
+                <SiderMenu menuList={menuList} collapsed={collapsed}/>
                 <Layout style={{minHeight: '100vh'}}>
-                    <Header style={{ background: '#fff', padding: 0 }}>
-                        <Icon
-                            className='trigger'
-                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle}
-                        />
-                    </Header>
+                    <Header collapsed handleMenuCollapse={this.handleMenuCollapse}/>
                     <Content style={{margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280}}>
-                        {contentList}
+                        <Switch>
+                            {contentList}
+                        </Switch>
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>
-                        Ant Design ©2018 Created by Ant UED
-                    </Footer>
+                    <Footer/>;
                 </Layout>
             </Layout>
+        );
+
+
+        return (
+            <Fragment>
+                <DocumentTitle title='标题'>
+                    <ContainerQuery query={query}>
+                        {params => (
+                            <Context.Provider value={this.getContext()}>
+                                <div className={classNames(params)}>{layout}</div>
+                            </Context.Provider>
+                        )}
+                    </ContainerQuery>
+                </DocumentTitle>
+            </Fragment>
         );
     }
 }
 
-export default BasicLayout;
+export default connect()(props => (
+    <Media query="(max-width: 599px)">
+        {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
+    </Media>
+));
