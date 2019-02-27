@@ -3,7 +3,7 @@ import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import './BasicLayout.less';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import SiderMenu from '../component/SiderMenu/SiderMenu';
+import SiderMenu from '../component/SiderMenu';
 import Header from './Header';
 import Footer from './Footer';
 import Media from 'react-media';
@@ -66,60 +66,29 @@ class BasicLayout extends Component {
     }
 
     render() {
-        const menuList = [];
+        const { menuData } = this.props;
         const contentList = [];
         const { collapsed } = this.state;
-        if (this.props.routes && this.props.routes.length > 0) {
-            contentList.push(<Redirect key='root' from='/' exact to={this.props.routes[0].path}/>);
-            for (let i = 0; i < this.props.routes.length; i++) {
-                const route = this.props.routes[i];
-                if (route.routes && route.routes.length > 0) {
-                    contentList.push(<Redirect key='subRoot' from={route.path} exact to={route.routes[0].path}/>)
-                    menuList.push(
-                        <SubMenu
-                            key={i}
-                            title={<span><Icon type={route.icon} /><span>{route.name}</span></span>}
-                        >
-                            {route.routes.map((subRoute, subIndex) => {
-                                if (subRoute.component) {
-                                    const Comp = React.lazy(() => import('../' + subRoute.component));
-                                    const compFunc = (() => {
-                                        return (<React.Suspense fallback={<PageLoading/>}>
-                                            <Comp routes={route.routes}/>
-                                        </React.Suspense>);
-                                    });
-                                    contentList.push(<Route key={i + '-' + subIndex} path={subRoute.path} component={compFunc}/>)
-                                }
-                                return (<Menu.Item key={i + '-' + subIndex}><Link to={subRoute.path}>{subRoute.name}</Link></Menu.Item>);
-                            })}
-                        </SubMenu>
-                    );
-
-                } else {
-                    menuList.push(
-                        <Menu.Item key={i}>
-                            <Link to={route.path}>
-                                <Icon type={route.icon} />
-                                <span>{route.name}</span>
-                            </Link>
-                        </Menu.Item>
-                    );
-                    if (route.component) {
-                        const Comp = React.lazy(() => import('../' + route.component));
-                        const compFunc = (() => {
-                            return (<React.Suspense fallback={<PageLoading/>}>
-                                <Comp routes={route.routes}/>
-                            </React.Suspense>);
-                        });
-                        contentList.push(<Route key={i} path={route.path} component={compFunc}/>)
+        if (menuData && menuData.length > 0) {
+            contentList.push(<Redirect key='root' from='/' exact to={menuData[0].path}/>);
+            for (let i = 0; i < menuData.length; i++) {
+                const data = menuData[i];
+                const {children} = data;
+                if (children && children.length > 0) {
+                    for (let j = 0; j < children.length; j++) {
+                        const child = children[j];
+                        contentList.push(<Route key={j} path={child.path} component={child.component}/>)
                     }
+                    contentList.push(<Redirect key='subRoot' from={data.path} exact to={data.children[0].path}/>)
+                } else if (children.component) {
+                    contentList.push(<Route key={i} path={children.path} component={children.component}/>)
                 }
             }
         }
 
         const layout = (
             <Layout className='BasicLayout'>
-                <SiderMenu menuList={menuList} collapsed={collapsed}/>
+                <SiderMenu menuData={menuData} collapsed={collapsed} {...this.props}/>
                 <Layout style={{minHeight: '100vh'}}>
                     <Header collapsed handleMenuCollapse={this.handleMenuCollapse}/>
                     <Content style={{margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280}}>
