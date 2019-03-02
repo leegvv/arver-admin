@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import { Layout, Icon } from 'antd';
+import {Layout, Icon} from 'antd';
 
-const { Header } = Layout;
+const {Header} = Layout;
 
 class HeaderView extends Component {
     render() {
-        const { collapsed, handleMenuCollapse } = this.props;
+        const {collapsed, handleMenuCollapse} = this.props;
         return (
-            <Header style={{ background: '#fff', padding: 0 }}>
+            <Header style={{background: '#fff', padding: 0}}>
                 <Icon
                     className='trigger'
                     type={collapsed ? 'menu-unfold' : 'menu-fold'}

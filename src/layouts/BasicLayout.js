@@ -1,45 +1,41 @@
-import React, { Component, Fragment } from 'react';
-import { Layout, Menu, Icon } from 'antd';
-import { Link } from 'react-router-dom';
+import React, {Component, Fragment} from 'react';
+import {Layout} from 'antd';
 import './BasicLayout.less';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import SiderMenu from '../component/SiderMenu';
 import Header from './Header';
 import Footer from './Footer';
 import Media from 'react-media';
 import DocumentTitle from 'react-document-title';
-import { ContainerQuery } from 'react-container-query';
+import {ContainerQuery} from 'react-container-query';
 import classNames from 'classnames';
 import Context from './MenuContext';
-import { connect } from 'react-redux';
-import PageLoading from '@/component/PageLoading';
 
-const { Content } = Layout;
-const SubMenu = Menu.SubMenu;
+const {Content} = Layout;
 
 const query = {
     'screen-xs': {
-        maxWidth: 575,
+        maxWidth: '575px'
     },
     'screen-sm': {
-        minWidth: 576,
-        maxWidth: 767,
+        minWidth: '576px',
+        maxWidth: '767px'
     },
     'screen-md': {
-        minWidth: 768,
-        maxWidth: 991,
+        minWidth: '768px',
+        maxWidth: '991px'
     },
     'screen-lg': {
-        minWidth: 992,
-        maxWidth: 1199,
+        minWidth: '992px',
+        maxWidth: '1199px'
     },
     'screen-xl': {
-        minWidth: 1200,
-        maxWidth: 1599,
+        minWidth: '1200px',
+        maxWidth: '1599px'
     },
     'screen-xxl': {
-        minWidth: 1600,
-    },
+        minWidth: '1600px'
+    }
 };
 
 class BasicLayout extends Component {
@@ -47,51 +43,76 @@ class BasicLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            collapsed: false,
+            collapsed: false
         };
     }
 
     handleMenuCollapse = () => {
         this.setState({
-            collapsed: !this.state.collapsed,
+            collapsed: !this.state.collapsed
         });
-    }
+    };
 
     getContext() {
-        const { location, breadcrumbNameMap } = this.props;
+        const {location, breadcrumbNameMap} = this.props;
         return {
             location,
-            breadcrumbNameMap,
+            breadcrumbNameMap
         };
     }
 
     render() {
-        const { menuData } = this.props;
+        const {menuData} = this.props;
         const contentList = [];
-        const { collapsed } = this.state;
+        const {collapsed} = this.state;
         if (menuData && menuData.length > 0) {
-            contentList.push(<Redirect key='root' from='/' exact to={menuData[0].path}/>);
+            contentList.push(<Redirect
+                key='root'
+                from='/'
+                exact={true}
+                to={menuData[0].path}
+            />);
             for (let i = 0; i < menuData.length; i++) {
                 const data = menuData[i];
                 const {children} = data;
                 if (children && children.length > 0) {
                     for (let j = 0; j < children.length; j++) {
                         const child = children[j];
-                        contentList.push(<Route key={j} path={child.path} component={child.component}/>)
+                        contentList.push(<Route
+                            key={j}
+                            path={child.path}
+                            component={child.component}
+                        />);
                     }
-                    contentList.push(<Redirect key='subRoot' from={data.path} exact to={data.children[0].path}/>)
+                    contentList.push(<Redirect
+                        key='subRoot'
+                        from={data.path}
+                        exact={true}
+                        to={data.children[0].path}
+                    />);
                 } else if (children.component) {
-                    contentList.push(<Route key={i} path={children.path} component={children.component}/>)
+                    contentList.push(<Route
+                        key={i}
+                        path={children.path}
+                        component={children.component}
+                    />);
                 }
             }
         }
 
         const layout = (
             <Layout className='BasicLayout'>
-                <SiderMenu menuData={menuData} collapsed={collapsed} {...this.props}/>
+                <SiderMenu
+                    menuData={menuData}
+                    collapsed={collapsed}
+                    {...this.props}
+                />
                 <Layout style={{minHeight: '100vh'}}>
-                    <Header collapsed handleMenuCollapse={this.handleMenuCollapse}/>
-                    <Content style={{margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280}}>
+                    <Header
+                        collapsed={true}
+                        handleMenuCollapse={this.handleMenuCollapse}
+                    />
+                    <Content style={{margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px'}}>
                         <Switch>
                             {contentList}
                         </Switch>
@@ -101,12 +122,11 @@ class BasicLayout extends Component {
             </Layout>
         );
 
-
         return (
             <Fragment>
                 <DocumentTitle title='标题'>
                     <ContainerQuery query={query}>
-                        {params => (
+                        {(params) => (
                             <Context.Provider value={this.getContext()}>
                                 <div className={classNames(params)}>{layout}</div>
                             </Context.Provider>
@@ -118,8 +138,11 @@ class BasicLayout extends Component {
     }
 }
 
-export default connect()(props => (
-    <Media query="(max-width: 599px)">
-        {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
+export default ((props) => (
+    <Media query='(max-width: 599px)'>
+        {(isMobile) => (<BasicLayout
+            {...props}
+            isMobile={isMobile}
+        />)}
     </Media>
 ));

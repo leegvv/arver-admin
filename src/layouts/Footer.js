@@ -1,15 +1,14 @@
 import React from 'react';
-import { Layout } from 'antd';
+import {Layout} from 'antd';
 
-const { Footer } = Layout;
+const {Footer} = Layout;
 
 const FooterView = () => {
     return (
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer style={{textAlign: 'center'}}>
             Ant Design ©2018 Created by Ant UED
         </Footer>
     );
 };
-
 
 export default FooterView;

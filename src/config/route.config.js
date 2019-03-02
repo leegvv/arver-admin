@@ -13,20 +13,20 @@ export default [
                     {
                         path: '/dashboard/analysis',
                         name: '分析页',
-                        component: 'pages/Dashboard/Analysis',
+                        component: 'pages/Dashboard/Analysis'
                     },
                     {
                         path: '/dashboard/monitor',
                         name: '监控页',
-                        component: 'pages/Dashboard/Monitor',
+                        component: 'pages/Dashboard/Monitor'
                     },
                     {
                         path: '/dashboard/workplace',
                         name: '工作台',
-                        component: 'pages/Dashboard/Workplace',
+                        component: 'pages/Dashboard/Workplace'
                     }
                 ]
             }
         ]
     }
-]
+];
