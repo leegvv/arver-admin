@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
-import './Container.less';
 import {Router, Route, Switch} from 'react-router-dom';
 import routeConfig from './config/route.config';
 import createHistory from 'history/createBrowserHistory';
 import PageLoading from '@/component/PageLoading';
+import defaultSettings from '@/defaultSettings';
+import {LocaleProvider} from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 const history = createHistory();
 
 class Container extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            locale: zhCN
+        };
+        moment.locale('zh-cn');
+    }
 
     getMenuData = (routes = []) => {
         const menuData = [];
@@ -48,35 +60,50 @@ class Container extends Component {
         return menuData;
     };
 
+    changeLocale = (e) => {
+        const localeValue = e.target.value;
+        this.setState({locale: localeValue});
+        if (localeValue && localeValue === zhCN) {
+            moment.locale('zh-cn');
+        } else {
+            moment.locale('en');
+        }
+    }
+
     render() {
+        const {locale} = this.state;
         return (
-            <Router history={history}>
-                <Switch>
-                    {
-                        routeConfig.map((route, index) => {
-                            if (route.component) {
-                                const Comp = React.lazy(() => import('./' + route.component));
-                                const render = ((props) => {
-                                    return (<React.Suspense fallback={<PageLoading/>}>
-                                        <Comp
-                                            menuData={this.getMenuData(route.routes)}
-                                            {...props}
+            <LocaleProvider locale={locale}>
+                <Router history={history}>
+                    <Switch>
+                        {
+                            routeConfig.map((route, index) => {
+                                if (route.component) {
+                                    const Comp = React.lazy(() => import('./' + route.component));
+                                    const render = ((props) => {
+                                        return (<React.Suspense fallback={<PageLoading/>}>
+                                            <Comp
+                                                menuData={this.getMenuData(route.routes)}
+                                                changeLocale={this.changeLocale}
+                                                {...defaultSettings}
+                                                {...props}
+                                            />
+                                        </React.Suspense>);
+                                    });
+                                    return (
+                                        <Route
+                                            key={index}
+                                            to={route.path}
+                                            render={render}
                                         />
-                                    </React.Suspense>);
-                                });
-                                return (
-                                    <Route
-                                        key={index}
-                                        to={route.path}
-                                        render={render}
-                                    />
-                                );
-                            }
-                            return null;
-                        })
-                    }
-                </Switch>
-            </Router>
+                                    );
+                                }
+                                return null;
+                            })
+                        }
+                    </Switch>
+                </Router>
+            </LocaleProvider>
         );
     }
 }

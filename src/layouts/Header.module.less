@@ -1,0 +1,27 @@
+@import '~antd/lib/style/themes/default.less';
+
+@pro-header-hover-bg: rgba(0, 0, 0, 0.025);
+
+.header{
+  position: relative;
+  background: #fff;
+  height: @layout-header-height;
+  padding: 0;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.logo {
+  display: inline-block;
+}
+
+.trigger {
+  height: @pro-header-hover-bg;
+  padding: ~'calc((@{layout-header-height} - 20px) / 2) 24px';
+  font-size: 20px;
+  corsor: pointer;
+  transition: all 0.3s, padding 0s;
+  &:hover {
+    background: @pro-header-hover-bg;
+  }
+
+}

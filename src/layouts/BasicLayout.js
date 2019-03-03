@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {Layout} from 'antd';
-import './BasicLayout.less';
+import styles from './BasicLayout.module.less';
 import {Route, Redirect, Switch} from 'react-router-dom';
 import SiderMenu from '../component/SiderMenu';
 import Header from './Header';
@@ -10,33 +10,36 @@ import DocumentTitle from 'react-document-title';
 import {ContainerQuery} from 'react-container-query';
 import classNames from 'classnames';
 import Context from './MenuContext';
+import logo from '../assets/logo.svg';
 
 const {Content} = Layout;
 
+/* eslint-disable */
 const query = {
     'screen-xs': {
-        maxWidth: '575px'
+        maxWidth: 575
     },
     'screen-sm': {
-        minWidth: '576px',
-        maxWidth: '767px'
+        minWidth: 576,
+        maxWidth: 767
     },
     'screen-md': {
-        minWidth: '768px',
-        maxWidth: '991px'
+        minWidth: 768,
+        maxWidth: 991
     },
     'screen-lg': {
-        minWidth: '992px',
-        maxWidth: '1199px'
+        minWidth: 992,
+        maxWidth: 1199
     },
     'screen-xl': {
-        minWidth: '1200px',
-        maxWidth: '1599px'
+        minWidth: 1200,
+        maxWidth: 1599
     },
     'screen-xxl': {
-        minWidth: '1600px'
+        minWidth: 1600
     }
 };
+/* eslint-enable*/
 
 class BasicLayout extends Component {
 
@@ -47,9 +50,9 @@ class BasicLayout extends Component {
         };
     }
 
-    handleMenuCollapse = () => {
+    handleMenuCollapse = (collapsed) => {
         this.setState({
-            collapsed: !this.state.collapsed
+            collapsed: collapsed
         });
     };
 
@@ -62,7 +65,7 @@ class BasicLayout extends Component {
     }
 
     render() {
-        const {menuData} = this.props;
+        const {menuData, isMobile, changeLocale} = this.props;
         const contentList = [];
         const {collapsed} = this.state;
         if (menuData && menuData.length > 0) {
@@ -105,12 +108,17 @@ class BasicLayout extends Component {
                 <SiderMenu
                     menuData={menuData}
                     collapsed={collapsed}
+                    onCollapse={this.handleMenuCollapse}
+                    logo={logo}
                     {...this.props}
                 />
                 <Layout style={{minHeight: '100vh'}}>
                     <Header
-                        collapsed={true}
+                        collapsed={collapsed}
                         handleMenuCollapse={this.handleMenuCollapse}
+                        logo={logo}
+                        isMobile={isMobile}
+                        changeLocale={changeLocale}
                     />
                     <Content style={{margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px'}}>
                         <Switch>

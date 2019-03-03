@@ -1,8 +1,6 @@
 import React, {PureComponent, Suspense} from 'react';
-import PropTypes from 'prop-types';
 import {Layout, Menu, Icon} from 'antd';
 import {Link} from 'react-router-dom';
-import logo from '../../assets/logo.svg';
 import PageLoading from '@/component/PageLoading';
 import {getDefaultCollapsedSubMenus, getMenuMatches} from './SiderMenuUtils';
 import {urlToList} from '../utils/pathTools';
@@ -12,6 +10,7 @@ import IconFont from '@/component/IconFont';
 
 const {Sider} = Layout;
 const SubMenu = Menu.SubMenu;
+let firstMount = true;
 
 const getIcon = (icon) => {
     if (typeof icon === 'string') {
@@ -51,6 +50,10 @@ class SiderMenu extends PureComponent {
             };
         }
         return null;
+    }
+
+    componentDidMount() {
+        firstMount = false;
     }
 
     isMainMenu = (key) => {
@@ -162,7 +165,7 @@ class SiderMenu extends PureComponent {
     };
 
     render() {
-        const {collapsed, menuData, location: {pathname}} = this.props;
+        const {isMobile, collapsed, onCollapse, menuData, location: {pathname}, logo, theme} = this.props;
         const {openKeys} = this.state;
 
         let selectedKeys = this.getSelectedMenuKeys(pathname);
@@ -182,6 +185,12 @@ class SiderMenu extends PureComponent {
                 collapsible={false}
                 collapsed={collapsed}
                 width='256px'
+                breakpoint='lg'
+                onCollapse={(collapse) => {
+                    if (firstMount || !isMobile) {
+                        onCollapse(collapse);
+                    }
+                }}
             >
                 <div className='sider-menu-index-logo logo'>
                     <Link to='/'>
@@ -194,10 +203,11 @@ class SiderMenu extends PureComponent {
                 </div>
                 <Suspense fallback={<PageLoading/>}>
                     <Menu
-                        theme='dark'
+                        theme={theme}
                         mode='inline'
                         onOpenChange={this.handleOpenChange}
                         selectedKeys={selectedKeys}
+                        style={{padding: '16px 0', width: '100%'}}
                         {...props}
                     >
                         {this.getNavMenuItems(menuData)}
@@ -207,9 +217,5 @@ class SiderMenu extends PureComponent {
         );
     }
 }
-
-SiderMenu.propTypes = {
-    menuData: PropTypes.array
-};
 
 export default SiderMenu;
