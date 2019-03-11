@@ -7,22 +7,22 @@ export default [
         routes: [
             {
                 path: '/dashboard',
-                name: 'Dashboard',
+                name: 'menu.dashboard',
                 icon: 'dashboard',
                 routes: [
                     {
                         path: '/dashboard/analysis',
-                        name: '分析页',
+                        name: 'menu.dashboard.analysis',
                         component: 'pages/Dashboard/Analysis'
                     },
                     {
                         path: '/dashboard/monitor',
-                        name: '监控页',
+                        name: 'menu.dashboard.monitor',
                         component: 'pages/Dashboard/Monitor'
                     },
                     {
                         path: '/dashboard/workplace',
-                        name: '工作台',
+                        name: 'menu.dashboard.workplace',
                         component: 'pages/Dashboard/Workplace'
                     }
                 ]

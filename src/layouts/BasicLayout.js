@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {Layout} from 'antd';
-import styles from './BasicLayout.module.less';
+// import styles from './BasicLayout.module.less';
 import {Route, Redirect, Switch} from 'react-router-dom';
 import SiderMenu from '../component/SiderMenu';
 import Header from './Header';
@@ -65,7 +65,7 @@ class BasicLayout extends Component {
     }
 
     render() {
-        const {menuData, isMobile, changeLocale} = this.props;
+        const {menuData, isMobile, locale, changeLocale} = this.props;
         const contentList = [];
         const {collapsed} = this.state;
         if (menuData && menuData.length > 0) {
@@ -118,6 +118,7 @@ class BasicLayout extends Component {
                         handleMenuCollapse={this.handleMenuCollapse}
                         logo={logo}
                         isMobile={isMobile}
+                        locale={locale}
                         changeLocale={changeLocale}
                     />
                     <Content style={{margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px'}}>

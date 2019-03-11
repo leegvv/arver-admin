@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import { DatePicker } from 'antd';
 
 class Analysis extends Component {
 
     render() {
         return (
-            <div>Analysis</div>
+            <div>
+                Analysis11
+                <DatePicker/>
+            </div>
         );
     }
 }

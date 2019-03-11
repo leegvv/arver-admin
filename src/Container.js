@@ -4,10 +4,9 @@ import routeConfig from './config/route.config';
 import createHistory from 'history/createBrowserHistory';
 import PageLoading from '@/component/PageLoading';
 import defaultSettings from '@/defaultSettings';
-import {LocaleProvider} from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import moment from 'moment';
 import 'moment/locale/zh-cn';
+import LocaleWrapper from './LocaleWrapper';
+import intl from 'react-intl-universal';
 
 const history = createHistory();
 
@@ -15,17 +14,20 @@ class Container extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            locale: zhCN
-        };
-        moment.locale('zh-cn');
+        this.state = {locale: 'zh-CN'}
+    }
+
+
+    changeLocale = (locale) => {
+        this.setState({locale: locale});
+        intl.options.currentLocale=locale;
     }
 
     getMenuData = (routes = []) => {
         const menuData = [];
         for (const route of routes) {
             const menu = {
-                name: route.name,
+                name: intl.get(route.name),
                 path: route.path,
                 icon: route.icon,
                 locale: route.name,
@@ -44,7 +46,7 @@ class Container extends Component {
                         </React.Suspense>);
                     });
                     const subMenu = {
-                        name: subRoute.name,
+                        name: intl.get(subRoute.name),
                         path: subRoute.path,
                         locale: subRoute.name,
                         authority: subRoute.authority,
@@ -60,20 +62,11 @@ class Container extends Component {
         return menuData;
     };
 
-    changeLocale = (e) => {
-        const localeValue = e.target.value;
-        this.setState({locale: localeValue});
-        if (localeValue && localeValue === zhCN) {
-            moment.locale('zh-cn');
-        } else {
-            moment.locale('en');
-        }
-    }
 
     render() {
         const {locale} = this.state;
         return (
-            <LocaleProvider locale={locale}>
+            <LocaleWrapper locale={locale}>
                 <Router history={history}>
                     <Switch>
                         {
@@ -84,6 +77,7 @@ class Container extends Component {
                                         return (<React.Suspense fallback={<PageLoading/>}>
                                             <Comp
                                                 menuData={this.getMenuData(route.routes)}
+                                                locale={locale}
                                                 changeLocale={this.changeLocale}
                                                 {...defaultSettings}
                                                 {...props}
@@ -103,7 +97,7 @@ class Container extends Component {
                         }
                     </Switch>
                 </Router>
-            </LocaleProvider>
+            </LocaleWrapper>
         );
     }
 }
