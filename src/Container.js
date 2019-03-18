@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
 import routeConfig from './config/route.config';
-import createHistory from 'history/createBrowserHistory';
+import {createBrowserHistory} from 'history';
 import PageLoading from '@/component/PageLoading';
 import defaultSettings from '@/defaultSettings';
 import 'moment/locale/zh-cn';
 import LocaleWrapper from './LocaleWrapper';
 import intl from 'react-intl-universal';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 class Container extends Component {
 

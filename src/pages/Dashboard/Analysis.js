@@ -3,6 +3,14 @@ import { DatePicker } from 'antd';
 
 class Analysis extends Component {
 
+    componentDidMount() {
+        fetch('/api/index')
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data);
+        });
+    }
+
     render() {
         return (
             <div>
