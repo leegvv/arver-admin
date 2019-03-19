@@ -1,5 +1,5 @@
 module.exports = {
-    '/api/index': {
-        local: '/index.json'
+    '/api/hello': {
+        local: '/hello.json'
     }
 }

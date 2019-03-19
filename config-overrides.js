@@ -5,7 +5,6 @@ const mockServer = require('./mock/server')
 
 const addMockServer = () => config => {
     config.after = (app)=> {mockServer(app)};
-    config.historyApiFallback = true;
     return config;
 };
 

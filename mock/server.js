@@ -6,8 +6,6 @@ module.exports = function (app) {
     Object.keys(config).forEach(key => {
         app.use(key, function (req, res) {
             const filename = path.join(__dirname, config[key].local);
-            console.log(11111111111111);
-            console.log(filename);
             if (filename.match(/\.json$/)) {
                 // json 文件直接读取内容返回
                 res.json(JSON.parse(fs.readFileSync(filename)))

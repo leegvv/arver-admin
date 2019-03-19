@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
-import { DatePicker } from 'antd';
+import {DatePicker} from 'antd';
 
 class Analysis extends Component {
 
     componentDidMount() {
-        fetch('/api/index')
-        .then(res => res.json())
-        .then((data) => {
-            console.log(data);
-        });
+        fetch('/api/hello',
+            {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        ).then(res => res.json())
+            .then((data) => {
+                console.log(data);
+            }
+        );
     }
 
     render() {
