@@ -4,7 +4,7 @@ import {DatePicker} from 'antd';
 class Analysis extends Component {
 
     componentDidMount() {
-        fetch('/api/hello',
+        fetch('/api/chart',
             {
                 method: 'post',
                 headers: {
