@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Layout} from 'antd';
-import GlobalHeader from '@/component/GlobalHeader';
+import GlobalHeader from '@/components/GlobalHeader';
 
 const {Header} = Layout;
 

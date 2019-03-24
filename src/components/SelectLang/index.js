@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Icon, Menu} from 'antd';
-import HeaderDropdown from '@/component/HeaderDropdown'
-import styles from '@/component/SelectLang/index.module.less';
+import HeaderDropdown from '@/components/HeaderDropdown'
+import styles from '@/components/SelectLang/index.module.less';
 import classNames from 'classnames';
 
 class SelectLang extends PureComponent {

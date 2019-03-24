@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Icon} from 'antd';
 import styles from './index.module.less';
 import {Link} from 'react-router-dom';
-import RightContent from '@/component/GlobalHeader/RightContent';
+import RightContent from '@/components/GlobalHeader/RightContent';
 
 class GlobalHeader extends PureComponent {
     render() {

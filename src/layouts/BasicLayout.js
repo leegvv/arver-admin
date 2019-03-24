@@ -1,8 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Layout} from 'antd';
-// import styles from './BasicLayout.module.less';
 import {Route, Redirect, Switch} from 'react-router-dom';
-import SiderMenu from '../component/SiderMenu';
+import SiderMenu from '../components/SiderMenu';
 import Header from './Header';
 import Footer from './Footer';
 import Media from 'react-media';

@@ -1,12 +1,12 @@
 import React, {PureComponent, Suspense} from 'react';
 import {Layout, Menu, Icon} from 'antd';
 import {Link} from 'react-router-dom';
-import PageLoading from '@/component/PageLoading';
+import PageLoading from '@/components/PageLoading';
 import {getDefaultCollapsedSubMenus, getMenuMatches} from './SiderMenuUtils';
 import {urlToList} from '../utils/pathTools';
 import {isUrl} from '@/utils/utils';
 import styles from './index.less';
-import IconFont from '@/component/IconFont';
+import IconFont from '@/components/IconFont';
 
 const {Sider} = Layout;
 const SubMenu = Menu.SubMenu;

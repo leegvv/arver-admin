@@ -1,10 +1,17 @@
-import React, {Component} from 'react';
-import {DatePicker} from 'antd';
+import React, {Component, Suspense} from 'react';
+import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import PageLoading from '@/components/PageLoading';
+
+const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
 
 class Analysis extends Component {
 
+    state = {
+        chart: {},
+        loading: true
+    }
     componentDidMount() {
-        fetch('/api/chart',
+        fetch('/api/fake_chart_data',
             {
                 method: 'post',
                 headers: {
@@ -13,17 +20,20 @@ class Analysis extends Component {
             }
         ).then(res => res.json())
             .then((data) => {
-                console.log(data);
+                this.setState({chart: data, loading: false})
             }
         );
     }
 
     render() {
+        const {loading, visitData} = this.state;
+
         return (
-            <div>
-                Analysis11
-                <DatePicker/>
-            </div>
+            <GridContent>
+                <Suspense fallback={<PageLoading/>}>
+                    <IntroduceRow loading={loading} visitData={visitData}/>
+                </Suspense>
+            </GridContent>
         );
     }
 }

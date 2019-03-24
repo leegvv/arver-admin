@@ -2,7 +2,7 @@ module.exports = {
     '/api/hello': {
         local: '/hello.json'
     },
-    '/api/chart': {
-        local: '/chart.js'
+    '/api/fake_chart_data': {
+        local: '/fake_chart_data.js'
     }
 }

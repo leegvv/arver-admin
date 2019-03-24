@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import SelectLang from '@/component/SelectLang';
+import SelectLang from '@/components/SelectLang';
 import styles from './index.module.less';
 
 class RightContext extends PureComponent {
