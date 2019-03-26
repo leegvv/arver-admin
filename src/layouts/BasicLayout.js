@@ -10,6 +10,7 @@ import {ContainerQuery} from 'react-container-query';
 import classNames from 'classnames';
 import Context from './MenuContext';
 import logo from '../assets/logo.svg';
+import styles from './BasicLayout.module.less';
 
 const {Content} = Layout;
 
@@ -120,7 +121,7 @@ class BasicLayout extends Component {
                         locale={locale}
                         changeLocale={changeLocale}
                     />
-                    <Content style={{margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px'}}>
+                    <Content className={styles.content} style={{paddingTop: '0px'}}>
                         <Switch>
                             {contentList}
                         </Switch>

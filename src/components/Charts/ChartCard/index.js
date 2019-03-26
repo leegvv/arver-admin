@@ -3,6 +3,21 @@ import {Card} from 'antd';
 import styles from './index.module.less';
 import classNames from 'classnames';
 
+const renderTotal = total => {
+    let totalDom;
+    switch (typeof total) {
+        case 'undefined':
+            totalDom = null;
+            break;
+        case 'function':
+            totalDom = <div className={styles.total}>{total()}</div>;
+            break;
+        default:
+            totalDom = <div className={styles.total}>{total}</div>;
+    }
+    return totalDom;
+};
+
 class ChartCard extends PureComponent {
     renderConnet = () => {
         const { contentHeight, title, avatar, action, total, footer, children, loading } = this.props;
@@ -16,23 +31,26 @@ class ChartCard extends PureComponent {
                         [styles.chartTopMargin]: !children && !footer
                     })}
                 >
-                    <div>{avatar}</div>
-                    <div>
-                        <div>
+                    <div className={styles.avatar}>{avatar}</div>
+                    <div className={styles.metaWrap}>
+                        <div className={styles.meta}>
                             <span>{title}</span>
-                            <span>{action}</span>
+                            <span className={styles.action}>{action}</span>
                         </div>
+                        {renderTotal(total)}
                     </div>
                 </div>
                 {children && (
-                    <div>
-                        <div>
+                    <div className={styles.content} style={{height: contentHeight || 'auto'}}>
+                        <div className={contentHeight && styles.contentFixed}>
                             {children}
                         </div>
                     </div>
                 )}
                 {footer && (
-                    <div>
+                    <div
+                        className={classNames(styles.footer, {[styles.footerMargin]: !children})}
+                    >
                         {footer}
                     </div>
                 )}
