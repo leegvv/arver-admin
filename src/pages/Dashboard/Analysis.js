@@ -3,6 +3,7 @@ import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import PageLoading from '@/components/PageLoading';
 
 const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
+const SalesCard = React.lazy(() => import('./SalesCard'));
 
 class Analysis extends Component {
 
@@ -33,6 +34,9 @@ class Analysis extends Component {
             <GridContent>
                 <Suspense fallback={<PageLoading/>}>
                     <IntroduceRow loading={loading} visitData={visitData}/>
+                </Suspense>
+                <Suspense fallback={null}>
+                    <SalesCard/>
                 </Suspense>
             </GridContent>
         );

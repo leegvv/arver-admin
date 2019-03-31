@@ -9,4 +9,5 @@ export default {
     'app.analysis.payments': 'Payments',
     'app.analysis.conversion-rate': 'Conversion Rate',
     'app.analysis.operational-effect': 'Operational Effect',
+    'app.analysis.sales': 'Sales',
 }
