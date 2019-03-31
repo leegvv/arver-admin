@@ -26,7 +26,8 @@ class Analysis extends Component {
     }
 
     render() {
-        const {loading, visitData} = this.state;
+        const {loading, chart} = this.state;
+        const {visitData} = chart;
 
         return (
             <GridContent>

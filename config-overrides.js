@@ -1,4 +1,4 @@
-const {override, fixBabelImports, addLessLoader, addWebpackAlias, overrideDevServer} = require('customize-cra');
+const {override, fixBabelImports,addDecoratorsLegacy, addLessLoader, addWebpackAlias, overrideDevServer} = require('customize-cra');
 const {primaryColor} = require('./src/defaultSettings');
 const path = require('path');
 const mockServer = require('./mock/server')
@@ -15,6 +15,7 @@ module.exports = {
             libraryDirectory: 'es',
             style: true
         }),
+        addDecoratorsLegacy(),
         addLessLoader({
             javascriptEnabled: true,
             modifyVars: {'@primary-color': primaryColor},
