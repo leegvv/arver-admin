@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {Chart, Axis, Tooltip, Geom} from 'bizcharts';
-import styles from './index.module.less';
+import styles from '../index.module.less';
 import autoHeight from '../autoHeight';
 
 @autoHeight()

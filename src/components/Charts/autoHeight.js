@@ -1,7 +1,6 @@
 import React from 'react';
 
 const computeHeight = (node) => {
-    console.log(getComputedStyle(node).height);
     const totalHeight = parseInt(getComputedStyle(node).height, 10);
     const padding = parseInt(getComputedStyle(node).paddingTop, 10)
         + parseInt(getComputedStyle(node).paddingBottom, 10);

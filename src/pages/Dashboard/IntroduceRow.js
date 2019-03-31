@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Row, Col, Icon, Tooltip} from 'antd';
-import {ChartCard, MiniArea, Field} from '@/components/Charts'
+import {ChartCard, MiniArea, MiniBar, MiniProgress, Field} from '@/components/Charts'
 import Trend from '@/components/Trend';
 import intl from 'react-intl-universal';
 import Yuan from '@/utils/Yuan';
@@ -53,6 +53,7 @@ const IntroduceRow = memo(({loading, visitData}) => {
             <Col {...topColResponsiveProps}>
                 <ChartCard
                     bordered={false}
+                    loading={loading}
                     title = {intl.get('app.analysis.visits')}
                     action={
                         <Tooltip
@@ -61,7 +62,6 @@ const IntroduceRow = memo(({loading, visitData}) => {
                             <Icon type='info-circle-o'/>
                         </Tooltip>
                     }
-                    loading={loading}
                     total={numeral(8846).format(0,0)}
                     footer={
                         <Field
@@ -77,7 +77,8 @@ const IntroduceRow = memo(({loading, visitData}) => {
             <Col {...topColResponsiveProps}>
                 <ChartCard
                     bordered={false}
-                    title = {intl.get('app.analysis.total-sales')}
+                    loading={loading}
+                    title = {intl.get('app.analysis.payments')}
                     action={
                         <Tooltip
                             title={intl.get('app.analysis.introduce')}
@@ -85,30 +86,23 @@ const IntroduceRow = memo(({loading, visitData}) => {
                             <Icon type='info-circle-o'/>
                         </Tooltip>
                     }
-                    loading={loading}
-                    total={() => <Yuan>126560</Yuan>}
+                    total={numeral(6560).format(0,0)}
                     footer={
                         <Field
-                            label={intl.get('app.analysis.day-sales')}
-                            value={`￥${numeral(12423).format('0,0')}`}
+                            label={intl.get('app.analysis.conversion-rate')}
+                            value='60%'
                         />
                     }
                     contentHeight={46}
                 >
-                    <Trend flag='up' style={{marginRight: 16}}>
-                        <span>{intl.get('app.analysis.week')}</span>
-                        <span className={styles.trendText}>12%</span>
-                    </Trend>
-                    <Trend flag='down'>
-                        {intl.get('app.analysis.day')}
-                        <span className={styles.trendText}>11%</span>
-                    </Trend>
+                    <MiniBar data={visitData}/>
                 </ChartCard>
             </Col>
             <Col {...topColResponsiveProps}>
                 <ChartCard
                     bordered={false}
-                    title = {intl.get('app.analysis.total-sales')}
+                    loading={loading}
+                    title = {intl.get('app.analysis.operational-effect')}
                     action={
                         <Tooltip
                             title={intl.get('app.analysis.introduce')}
@@ -116,27 +110,29 @@ const IntroduceRow = memo(({loading, visitData}) => {
                             <Icon type='info-circle-o'/>
                         </Tooltip>
                     }
-                    loading={loading}
-                    total={() => <Yuan>126560</Yuan>}
+                    total='78%'
                     footer={
-                        <Field
-                            label={intl.get('app.analysis.day-sales')}
-                            value={`￥${numeral(12423).format('0,0')}`}
-                        />
+                        <div style={{whiteSpace: 'nowrap', overflow: 'hidden'}}>
+                            <Trend flag='up' style={{marginRight: 16}}>
+                                {intl.get('app.analysis.week')}
+                                <span className={styles.trendText}>12%</span>
+                            </Trend>
+                            <Trend flag='down'>
+                                {intl.get('app.analysis.day')}
+                                <span className={styles.trendText}>11%</span>
+                            </Trend>
+                        </div>
                     }
                     contentHeight={46}
                 >
-                    <Trend flag='up' style={{marginRight: 16}}>
-                        <span>{intl.get('app.analysis.week')}</span>
-                        <span className={styles.trendText}>12%</span>
-                    </Trend>
-                    <Trend flag='down'>
-                        {intl.get('app.analysis.day')}
-                        <span className={styles.trendText}>11%</span>
-                    </Trend>
+                    <MiniProgress
+                        percent={78}
+                        strokeWidth={8}
+                        target={80}
+                        color='#13C2C2'
+                    />
                 </ChartCard>
             </Col>
-
         </Row>
     );
 });

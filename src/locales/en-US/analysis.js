@@ -6,4 +6,7 @@ export default {
     'app.analysis.day': 'DoD Change',
     'app.analysis.visits': 'Visits',
     'app.analysis.day-visits': 'Daily Visits',
+    'app.analysis.payments': 'Payments',
+    'app.analysis.conversion-rate': 'Conversion Rate',
+    'app.analysis.operational-effect': 'Operational Effect',
 }
