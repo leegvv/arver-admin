@@ -10,5 +10,14 @@ export default {
     'app.analysis.conversion-rate': '转化率',
     'app.analysis.operational-effect': '运营活动效果',
     'app.analysis.sales': '销售额',
+    'app.analysis.sales-trend': '销售趋势',
+    'app.analysis.test': '工专路 {no} 号店',
+    'app.analysis.sales-ranking': '门店销售额排名',
+    'app.analysis.visits-trend': '访问量趋势',
+    'app.analysis.visits-ranking': '门店访问量排名',
+    'app.analysis.all-year': '全年',
+    'app.analysis.all-month': '本月',
+    'app.analysis.all-week': '本周',
+    'app.analysis.all-day': '今日',
 
 }

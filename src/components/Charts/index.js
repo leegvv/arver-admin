@@ -13,6 +13,7 @@ const getComponent = Component => {
     }
 };
 
+const Bar = getComponent(React.lazy(() => import('./Bar')));
 const MiniArea = getComponent(React.lazy(() => import('./MiniArea')));
 const MiniBar = getComponent(React.lazy(() => import('./MiniBar')));
 const MiniProgress = getComponent(React.lazy(() => import('./MiniProgress')));
@@ -21,6 +22,7 @@ const yuan = val => `¥ ${numeral(val).format('0,0')}`;
 
 const Charts = {
     yuan,
+    Bar,
     MiniArea,
     MiniBar,
     MiniProgress,
@@ -31,6 +33,7 @@ const Charts = {
 export {
     Charts as default,
     yuan,
+    Bar,
     MiniArea,
     MiniBar,
     MiniProgress,

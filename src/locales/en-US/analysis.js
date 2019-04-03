@@ -10,4 +10,13 @@ export default {
     'app.analysis.conversion-rate': 'Conversion Rate',
     'app.analysis.operational-effect': 'Operational Effect',
     'app.analysis.sales': 'Sales',
+    'app.analysis.sales-trend': 'Stores Sales Trend',
+    'app.analysis.test': 'Gongzhuan No.{no} shop',
+    'app.analysis.sales-ranking': 'Sales Ranking',
+    'app.analysis.visits-trend': 'Visits Trend',
+    'app.analysis.visits-ranking': 'Visits Ranking',
+    'app.analysis.all-year': 'All Year',
+    'app.analysis.all-month': 'All Month',
+    'app.analysis.all-week': 'All Week',
+    'app.analysis.all-day': 'All day',
 }
