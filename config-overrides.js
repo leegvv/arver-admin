@@ -1,10 +1,15 @@
 const {override, fixBabelImports,addDecoratorsLegacy, addLessLoader, addWebpackAlias, overrideDevServer} = require('customize-cra');
 const {primaryColor} = require('./defaultSettings');
 const path = require('path');
-const mockServer = require('./mock/server')
 
-const addMockServer = () => config => {
-    config.after = (app)=> {mockServer(app)};
+const addProxy = () => config => {
+    config.proxy = {
+        '/api': {
+            target: 'https://preview.pro.ant.design',
+            changeOrigin: true,
+            secure: false
+        }
+    }
     return config;
 };
 
@@ -24,5 +29,5 @@ module.exports = {
             '@': path.resolve(__dirname, 'src')
         })
     ),
-    devServer: overrideDevServer(addMockServer())
+    devServer: overrideDevServer(addProxy())
 };

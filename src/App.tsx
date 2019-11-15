@@ -1,9 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Button} from 'antd';
 
 const App: React.FC = () => {
+
+    useEffect(() => {
+        fetch('/api/fake_chart_data')
+            .then((response => response.json()))
+            .then(data => console.log(data)
+        );
+    });
+
     return (
         <div className="App">
             <header className="App-header">
