@@ -9,8 +9,6 @@ const RouterWrapper: React.FC = () => {
         <LocaleWrapper>
             <Router>
                 {renderRoutes(routes)}
-                {/*<Route to='/' exact={true} component={BlankLayout}/>
-                <Route to='/basic' exact={true} component={BasicLayout}/>*/}
             </Router>
         </LocaleWrapper>
     );

@@ -3,10 +3,23 @@ import {Layout, Menu, Icon} from 'antd';
 import styles from './index.module.less';
 import {Helmet} from 'react-helmet';
 import SiderMenu from '@/components/SiderMenu';
+import getMenuData from '@/utils/getMenuData';
+import {SiderMenuProps} from '@/components/SiderMenu';
+import {Route} from '@/typings';
 
 const {Header, Footer, Content} = Layout;
 
-const BasicLayout: React.FC = () => {
+export interface BasicLayoutProps extends SiderMenuProps{
+    route: Route
+}
+
+const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
+
+    const {route} = props;
+    const {routes = []} = route;
+    const {menuData} = getMenuData(routes);
+    console.log(menuData);
+
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Fragment>
@@ -15,7 +28,7 @@ const BasicLayout: React.FC = () => {
             </Helmet>
             <div className={styles.BasicLayout}>
                 <Layout>
-                    <SiderMenu collapsed={collapsed}/>
+                    <SiderMenu collapsed={collapsed} menuData={menuData}/>
                     <Layout>
                         <Header style={{background: '#fff', padding: 0}}>
                             <Icon

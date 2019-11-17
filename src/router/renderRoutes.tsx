@@ -46,7 +46,9 @@ const renderRoutes = (routes: RouteProps[] | undefined, extraProps?: object, swi
                     const Component = route.component;
                     if (Component) {
                         return (
-                            <Component>
+                            <Component
+                                route={route}
+                            >
                                 {childRoutes}
                             </Component>
                         );

@@ -1,9 +1,7 @@
 import React from 'react';
 import {ConfigProvider} from 'antd';
 import {IntlProvider} from 'react-intl';
-import 'moment/locale/pt-br';
 import 'moment/locale/zh-cn';
-import 'moment/locale/zh-tw';
 
 let defaultAntd = require('antd/lib/locale-provider/zh_CN');
 defaultAntd = defaultAntd.default || defaultAntd;
