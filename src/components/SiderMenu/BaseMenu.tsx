@@ -22,6 +22,12 @@ const BaseMeun: React.FC<BaseMenuProps> = (props) => {
                 <SubMenu
                     key={item.key || item.path}
                     onTitleClick={item.onTitleClick}
+                    title={
+                        <span>
+                            <Icon type={item.icon}/>
+                            <span>{item.name}</span>
+                        </span>
+                    }
                 >
                     {getNavMenuItems(item.children)}
                 </SubMenu>

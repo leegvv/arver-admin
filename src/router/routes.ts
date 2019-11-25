@@ -22,6 +22,34 @@ const routes = [
                                 path: '/dashboard/analysis',
                                 component: require('../pages/dashboard/analysis').default,
                                 exact: true
+                            },
+                            {
+                                name: 'monitor',
+                                icon: 'smile',
+                                path: '/dashboard/monitor',
+                                component: require('../pages/dashboard/monitor').default,
+                                exact: true,
+                            },
+                            {
+                                name: 'workplace',
+                                icon: 'smile',
+                                path: '/dashboard/workplace',
+                                component: require('../pages/dashboard/workplace').default,
+                                exact: true,
+                            },
+                        ]
+                    },
+                    {
+                        path: '/form',
+                        icon: 'form',
+                        name: 'form',
+                        routes: [
+                            {
+                                name: 'basic-form',
+                                icon: 'smile',
+                                path: '/form/basic-form',
+                                component: require('../pages/form/basic-form').default,
+                                exact: true,
                             }
                         ]
                     }
