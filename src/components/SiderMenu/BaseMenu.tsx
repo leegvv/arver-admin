@@ -35,7 +35,7 @@ const BaseMeun: React.FC<BaseMenuProps> = (props) => {
         }
         return (
             <Menu.Item key={item.key || item.path}>
-                <Icon type='user'/>
+                <Icon type={item.icon}/>
                 <span>{item.name}</span>
             </Menu.Item>
         );
