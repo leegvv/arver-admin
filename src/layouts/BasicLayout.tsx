@@ -1,24 +1,26 @@
 import React, {useState, Fragment} from 'react';
-import {Layout, Menu, Icon} from 'antd';
+import {Layout, Icon} from 'antd';
 import styles from './index.module.less';
 import {Helmet} from 'react-helmet';
 import SiderMenu from '@/components/SiderMenu';
 import getMenuData from '@/utils/getMenuData';
 import {SiderMenuProps} from '@/components/SiderMenu';
 import {Route} from '@/typings';
+import {useIntl} from 'react-intl';
+import {Settings} from 'config/defaultSettings';
 
 const {Header, Footer, Content} = Layout;
 
-export interface BasicLayoutProps extends SiderMenuProps{
+export interface BasicLayoutProps extends SiderMenuProps, Partial<Settings>{
     route: Route
 }
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
-    const {route} = props;
+    const {route, menu} = props;
     const {routes = []} = route;
-    const {menuData} = getMenuData(routes);
-    console.log(menuData);
+    const intl = useIntl();
+    const {menuData} = getMenuData(routes, menu, intl.formatMessage);
 
     const [collapsed, setCollapsed] = useState(false);
     return (

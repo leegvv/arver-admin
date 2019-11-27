@@ -1,15 +1,15 @@
-import {MenuDataItem, Route} from '@/typings';
-import {FormattedMessage} from 'react-intl';
-import {DefaultSettings} from '@/../../config/defaultSettings'
+import {MenuDataItem, Route, MessageDescriptor} from '@/typings';
+import {Settings} from 'config/defaultSettings'
 
 interface FormatterProps {
-    data: MenuDataItem[],
-    menu: DefaultSettings['menu'],
-    parentName?: string
+    data: MenuDataItem[];
+    menu: Settings['menu'];
+    formatMessage?: (data:{id: string, defaultMessage?: string}) => string;
+    parentName?: string;
 }
 
 const formatter = (props: FormatterProps): MenuDataItem[] => {
-    const {data = [], menu, parentName} = props;
+    const {data = [], menu, formatMessage, parentName} = props;
     return data.filter(item => item && item.name && item.path)
         .map((item = {path: ''}) => {
             const {name} = item;
@@ -17,12 +17,10 @@ const formatter = (props: FormatterProps): MenuDataItem[] => {
                 return item;
             }
             const locale = `${parentName || 'menu'}.${name}`;
-            /*const localeName =
-                menu.locale
+            const localeName =
+                menu.locale || !formatMessage
                     ? name
-                    : formatMessage({ id: locale, defaultMessage: name });*/
-            const localeName = menu.locale ? name : '国际化名称';
-
+                    : formatMessage({ id: locale, defaultMessage: name });
 
             const result: MenuDataItem = {
                 ...item,
@@ -62,9 +60,10 @@ const defaultFilterMenuData = (menuData: MenuDataItem[] = []): MenuDataItem[] =>
         }).filter(item => item);
 };
 
-const getMenuData = (routes: Route[], menu?: {locale: boolean}) => {
+const getMenuData = (routes: Route[], menu?: {locale: boolean}, formatMessage?: (message: MessageDescriptor) => string) => {
     let orginalMenuData = formatter({
         data: routes,
+        formatMessage,
         menu: menu || {locale: false}
     });
     console.log(orginalMenuData);

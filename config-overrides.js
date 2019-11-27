@@ -1,5 +1,4 @@
 const {override, fixBabelImports,addDecoratorsLegacy, addLessLoader, addWebpackAlias, overrideDevServer} = require('customize-cra');
-const {primaryColor} = require('./defaultSettings');
 const path = require('path');
 
 const addProxy = () => config => {
@@ -22,8 +21,7 @@ module.exports = {
         }),
         addDecoratorsLegacy(),
         addLessLoader({
-            javascriptEnabled: true,
-            modifyVars: {'@primary-color': primaryColor}
+            javascriptEnabled: true
         }),
         addWebpackAlias({
             '@': path.resolve(__dirname, 'src')

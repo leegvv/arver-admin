@@ -14,3 +14,9 @@ export interface MenuDataItem {
 export interface Route extends MenuDataItem{
     routes?: Route[]
 }
+
+export interface MessageDescriptor {
+    id: any;
+    description?: string;
+    defaultMessage?: string;
+}

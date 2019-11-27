@@ -2,22 +2,27 @@ import React from 'react';
 import {ConfigProvider} from 'antd';
 import {IntlProvider} from 'react-intl';
 import 'moment/locale/zh-cn';
+import zhCN from '@/locales/zh-CN';
+import enUS from '@/locales/en-US';
+import antdZhCN from 'antd/lib/locale-provider/zh_CN';
+import antdEnUS from 'antd/lib/locale-provider/en_US';
+
 
 let defaultAntd = require('antd/lib/locale-provider/zh_CN');
 defaultAntd = defaultAntd.default || defaultAntd;
 
 const localeInfo = {
     'en-US': {
-        messages: {},
+        messages: enUS,
         locale: 'en-US',
-        antd: require('antd/lib/locale-provider/en_US'),
+        antd: antdEnUS,
         data: {},
         momentLocale: ''
     },
     'zh-CN': {
-        messages: {},
+        messages: zhCN,
         locale: 'zh-CN',
-        antd: require('antd/lib/locale-provider/zh_CN'),
+        antd: antdZhCN,
         data: {},
         momentLocale: 'zh-cn'
     }
@@ -28,10 +33,11 @@ const LocaleWrapper : React.FC = (props) => {
         let appLocale = {
             messages: {},
             locale: 'zh-CN',
-            antd: require('antd/lib/locale-provider/zh_CN'),
+            antd: antdZhCN,
             data: {},
             momentLocale: 'zh-cn'
         };
+
         if (
             localStorage
             && localStorage.getItem('arver_admin_locale')
@@ -54,7 +60,7 @@ const LocaleWrapper : React.FC = (props) => {
     };
 
     const appLocale = getAppLocale();
-    const antdLocale = appLocale.antd ? (appLocale.antd.default || appLocale.antd) : defaultAntd;
+    const antdLocale = appLocale.antd ? (appLocale.antd) : defaultAntd;
 
     return (
         <ConfigProvider locale={antdLocale}>
@@ -63,6 +69,6 @@ const LocaleWrapper : React.FC = (props) => {
             </IntlProvider>
         </ConfigProvider>
     );
-}
+};
 
 export default LocaleWrapper;
