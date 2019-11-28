@@ -14,7 +14,8 @@ import {ConnectState} from '@/models/connect';
 const {Header, Footer, Content} = Layout;
 
 export interface BasicLayoutProps extends SiderMenuProps, Partial<Settings>{
-    route: Route
+    route: Route,
+    settings: Settings
 }
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
@@ -59,6 +60,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     );
 };
 
-export default connect(({settings}: ConnectState) => ({
-    settings
-}))(BasicLayout);
+export default connect((state: ConnectState) => {
+    console.log(state);
+    return {settings: state.settings};
+})(BasicLayout);
