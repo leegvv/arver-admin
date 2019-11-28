@@ -1,5 +1,5 @@
 import {MenuDataItem, Route, MessageDescriptor} from '@/typings';
-import {Settings} from 'config/defaultSettings'
+import {Settings} from 'src/config/defaultSettings'
 
 interface FormatterProps {
     data: MenuDataItem[];

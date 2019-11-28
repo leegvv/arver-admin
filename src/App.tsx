@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
 import './App.less';
 import RouterWrapper from './router/RouterWrapper';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducers from '@/models/reducers';
 
 const App: React.FC = () => {
 
@@ -11,8 +14,12 @@ const App: React.FC = () => {
         );
     });
 
+    const store = createStore(reducers);
+
     return (
-        <RouterWrapper/>
+        <Provider store={store}>
+            <RouterWrapper/>
+        </Provider>
     );
 }
 

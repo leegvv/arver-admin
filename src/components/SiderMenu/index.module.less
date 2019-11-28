@@ -1,0 +1,28 @@
+@import '~antd/es/style/themes/default.less';
+
+@nav-header-height: @layout-header-height;
+
+.siderMenuLogo {
+    position: relative;
+    height: @nav-header-height;
+    line-height: @nav-header-height;
+    padding-left: (@menu-collapsed-width - 32px) / 2;
+    overflow: hidden;
+    background: @layout-sider-background;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    img {
+        display: inline-block;
+        height: 32px;
+        vertical-align: center;
+    }
+    h1 {
+        display: inline-block;
+        margin: 0 0 0 12px;
+        color: white;
+        font-width: 600;
+        font-size: 20px;
+        vertical-align: center;
+    }
+}

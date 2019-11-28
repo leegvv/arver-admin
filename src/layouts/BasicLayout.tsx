@@ -7,7 +7,9 @@ import getMenuData from '@/utils/getMenuData';
 import {SiderMenuProps} from '@/components/SiderMenu';
 import {Route} from '@/typings';
 import {useIntl} from 'react-intl';
-import {Settings} from 'config/defaultSettings';
+import {Settings} from 'src/config/defaultSettings';
+import {connect} from 'react-redux';
+import {ConnectState} from '@/models/connect';
 
 const {Header, Footer, Content} = Layout;
 
@@ -57,4 +59,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     );
 };
 
-export default BasicLayout;
+export default connect(({settings}: ConnectState) => ({
+    settings
+}))(BasicLayout);
