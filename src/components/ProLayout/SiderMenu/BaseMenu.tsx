@@ -1,11 +1,28 @@
 import React from 'react';
 import {Icon, Menu} from 'antd';
-import {MenuDataItem} from '@/typings';
+import {MenuDataItem, MessageDescriptor, Route, RouterTypes, WithFalse} from '@/typings';
+import {MenuMode, MenuProps} from 'antd/es/menu';
+import defaultSettings, {Settings} from '../defaultSettings';
+import {MenuTheme} from 'antd/es/menu/MenuContext';
 
 const {SubMenu} = Menu;
 
-interface BaseMenuProps {
-    menuData?: MenuDataItem[]
+export interface BaseMenuProps extends Partial<RouterTypes<Route>>, Omit<MenuProps, 'openKeys'>, Partial<Settings>{
+    className?: string;
+    collapsed?: boolean;
+    flatMenuKeys?: string[];
+    handleOpenChange?: (openKeys: string[]) => void;
+    isMobile?: boolean;
+    menuData?: MenuDataItem[];
+    mode?: MenuMode;
+    onCollapse?: (collapsed: boolean) => void;
+    onOpenChange?: (openKeys: string[]) => void;
+    openKeys?: WithFalse<String[]>;
+    style?: React.CSSProperties;
+    theme?: MenuTheme;
+    formatMessage?: (message: MessageDescriptor) => string;
+    subMenuItemRender?: WithFalse<(item: MenuDataItem & {isUrl: boolean}, defaultDom: React.ReactNode) => React.ReactNode>;
+    menuItemRender?: WithFalse<(item: MenuDataItem & {isUrl: boolean}, defaultDom: React.ReactNode) => React.ReactNode>;
 };
 
 const BaseMeun: React.FC<BaseMenuProps> = (props) => {

@@ -7,12 +7,12 @@ import reducers from '@/models/reducers';
 
 const App: React.FC = () => {
 
-    useEffect(() => {
+    /*useEffect(() => {
         fetch('/api/fake_chart_data')
             .then((response => response.json()))
             .then(data => console.log(data)
         );
-    });
+    });*/
 
     const store = createStore(reducers);
 
