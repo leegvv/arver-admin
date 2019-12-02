@@ -2,7 +2,7 @@ import React from 'react';
 import {Icon, Menu} from 'antd';
 import {MenuDataItem, MessageDescriptor, Route, RouterTypes, WithFalse} from '@/typings';
 import {MenuMode, MenuProps} from 'antd/es/menu';
-import defaultSettings, {Settings} from '../defaultSettings';
+import {Settings} from '../defaultSettings';
 import {MenuTheme} from 'antd/es/menu/MenuContext';
 
 const {SubMenu} = Menu;

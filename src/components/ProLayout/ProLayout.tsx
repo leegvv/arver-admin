@@ -1,9 +1,9 @@
-import React, {useState, Fragment, CSSProperties} from 'react';
+import React, {useState, CSSProperties} from 'react';
 import {Layout, Icon} from 'antd';
 import styles from './index.module.less';
 import {Helmet} from 'react-helmet';
 import SiderMenu from '@/components/ProLayout/SiderMenu';
-import getMenuData from '@/utils/getMenuData';
+import getMenuData from '@/components/ProLayout/utils/getMenuData';
 import {SiderMenuProps} from './SiderMenu/SiderMenu';
 import {MenuDataItem, MessageDescriptor, Route, RouterTypes, WithFalse} from '@/typings';
 import {useIntl} from 'react-intl';
@@ -11,6 +11,7 @@ import {Settings} from './defaultSettings';
 import {useMediaQuery} from 'react-responsive';
 import classNames from 'classnames';
 import {BaseMenuProps} from '@/components/ProLayout/SiderMenu/BaseMenu';
+import {localeType} from './locales';
 
 const {Header, Footer, Content} = Layout;
 
