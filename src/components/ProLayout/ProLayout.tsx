@@ -1,5 +1,6 @@
 import React, {useState, CSSProperties} from 'react';
-import {Layout, Icon} from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Layout } from 'antd';
 import styles from './index.module.less';
 import {Helmet} from 'react-helmet';
 import SiderMenu from '@/components/ProLayout/SiderMenu';
@@ -93,43 +94,41 @@ const ProLayout: React.FC<ProLayoutProps> = (props) => {
     );
 
     const [collapsed, setCollapsed] = useState(false);
-    return (
-        <>
-            <Helmet>
-                <title>Ant Design Pro Title</title>
-            </Helmet>
-            <div className={className}>
-                <Layout
-                    style={{
-                        ...style,
-                        height: '100%'
-                    }}
-                >
-                    <SiderMenu collapsed={collapsed} menuData={menuData} title={title}/>
-                    <Layout>
-                        <Header style={{background: '#fff', padding: 0}}>
-                            <Icon
-                                className='trigger'
-                                type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={() => setCollapsed(!collapsed)}
-                            />
-                        </Header>
-                        <Content
-                            style={{
-                                margin: '24px 16px',
-                                padding: 24,
-                                background: '#fff',
-                                minHeight: 280
-                            }}
-                        >
-                            Content
-                        </Content>
-                        <Footer>Footer</Footer>
-                    </Layout>
+    return <>
+        <Helmet>
+            <title>Ant Design Pro Title</title>
+        </Helmet>
+        <div className={className}>
+            <Layout
+                style={{
+                    ...style,
+                    height: '100%'
+                }}
+            >
+                <SiderMenu collapsed={collapsed} menuData={menuData} title={title}/>
+                <Layout>
+                    <Header style={{background: '#fff', padding: 0}}>
+                        <LegacyIcon
+                            className='trigger'
+                            type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                            onClick={() => setCollapsed(!collapsed)}
+                        />
+                    </Header>
+                    <Content
+                        style={{
+                            margin: '24px 16px',
+                            padding: 24,
+                            background: '#fff',
+                            minHeight: 280
+                        }}
+                    >
+                        Content
+                    </Content>
+                    <Footer>Footer</Footer>
                 </Layout>
-            </div>
-        </>
-    );
+            </Layout>
+        </div>
+    </>;
 };
 
 export default ProLayout;

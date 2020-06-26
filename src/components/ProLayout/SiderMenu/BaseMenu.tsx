@@ -1,5 +1,6 @@
 import React from 'react';
-import {Icon, Menu} from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Menu } from 'antd';
 import {MenuDataItem, MessageDescriptor, Route, RouterTypes, WithFalse} from '@/typings';
 import {MenuMode, MenuProps} from 'antd/es/menu';
 import {Settings} from '../defaultSettings';
@@ -23,7 +24,7 @@ export interface BaseMenuProps extends Partial<RouterTypes<Route>>, Omit<MenuPro
     formatMessage?: (message: MessageDescriptor) => string;
     subMenuItemRender?: WithFalse<(item: MenuDataItem & {isUrl: boolean}, defaultDom: React.ReactNode) => React.ReactNode>;
     menuItemRender?: WithFalse<(item: MenuDataItem & {isUrl: boolean}, defaultDom: React.ReactNode) => React.ReactNode>;
-};
+}
 
 const BaseMeun: React.FC<BaseMenuProps> = (props) => {
 
@@ -41,7 +42,7 @@ const BaseMeun: React.FC<BaseMenuProps> = (props) => {
                     onTitleClick={item.onTitleClick}
                     title={
                         <span>
-                            <Icon type={item.icon}/>
+                            <LegacyIcon type={item.icon}/>
                             <span>{item.name}</span>
                         </span>
                     }
@@ -52,7 +53,7 @@ const BaseMeun: React.FC<BaseMenuProps> = (props) => {
         }
         return (
             <Menu.Item key={item.key || item.path}>
-                <Icon type={item.icon}/>
+                <LegacyIcon type={item.icon}/>
                 <span>{item.name}</span>
             </Menu.Item>
         );
