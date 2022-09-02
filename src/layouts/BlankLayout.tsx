@@ -1,9 +1,10 @@
 import React from 'react';
+import {Outlet} from 'react-router-dom';
 
-const BlankLayout: React.FC = ({children}) => {
+const BlankLayout: React.FC = () => {
     return (
         <div>
-            {children}
+            <Outlet/>
         </div>
     );
 };

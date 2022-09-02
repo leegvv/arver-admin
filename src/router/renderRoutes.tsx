@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 
 export interface RouteProps {
     redirect?: any,
@@ -9,66 +9,64 @@ export interface RouteProps {
     strict?: boolean,
     location?: any,
     sensitive?: boolean,
-    render?: Function,
+    render?: any,
     Routes?: any,
     routes?: RouteProps[],
-    component?: Function
+    component?: any
 }
 
-const renderRoutes = (routes: RouteProps[] | undefined, extraProps?: object, switchProps?: object) => {
+const genRouteArray = (routes: RouteProps[]|undefined): any[] => {
     if (!routes) {
-        return null;
+        return [];
     }
-    const routeArray = routes.map((route, index) => {
-        const {redirect, key, path, exact, strict, location, sensitive} = route;
-        if (redirect) {
-            return (
-                <Redirect
-                    key={key || index}
-                    from={path}
-                    to={redirect}
-                    exact={exact}
-                    strict={strict}
-                />
-            );
+    return routes.flatMap((route, index) => {
+        const {path, component: Comp} = route;
+        const childRoutes = genRouteArray(route.routes);
+
+        if (Comp) {
+            if (childRoutes.length > 0) {
+                return [
+                    <Route
+                        key={index + '-0'}
+                        path={path}
+                        element={
+                            <Navigate to={childRoutes[0].props.path}/>
+                        }
+                    />,
+                    <Route
+                        key={index}
+                        path={path}
+                        element={<Comp/>}
+                    >
+                        {childRoutes}
+                    </Route>
+                ];
+            }
+            return <Route key={index} path={path} element={<Comp/>}/>;
         }
 
-        return (
+        return [
             <Route
-                key={key || index}
+                key={index}
                 path={path}
-                exact={exact}
-                strict={strict}
-                location={location}
-                sensitive={sensitive}
-                render={(props) => {
-                    const childRoutes = renderRoutes(route.routes, extraProps, {location: props.location});
-                    const Component = route.component;
-                    if (Component) {
-                        return (
-                            <Component
-                                route={route}
-                            >
-                                {childRoutes}
-                            </Component>
-                        );
-                    } else {
-                        return childRoutes;
-                    }
-                }}
-            />
-        );
+                element={<Navigate to={childRoutes[0].path}/>}
+            />,
+            ...childRoutes
+        ];
+    });
+};
 
-    })
+const renderRoutes = (routes: RouteProps[]|undefined) => {
+    if (!routes) {
+        return [];
+    }
+    const routeArray = genRouteArray(routes);
 
     return (
-        <Switch
-            {...switchProps}
-        >
+        <Routes>
             {routeArray}
-        </Switch>
+        </Routes>
     );
-
 };
 
 export default renderRoutes;

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Menu } from 'antd';
+import {Menu} from 'antd';
 import {MenuDataItem, MessageDescriptor, Route, RouterTypes, WithFalse} from '@/typings';
 import {MenuMode, MenuProps} from 'antd/es/menu';
 import {Settings} from '../defaultSettings';
@@ -8,7 +7,7 @@ import {MenuTheme} from 'antd/es/menu/MenuContext';
 
 const {SubMenu} = Menu;
 
-export interface BaseMenuProps extends Partial<RouterTypes<Route>>, Omit<MenuProps, 'openKeys'>, Partial<Settings>{
+export interface BaseMenuProps {
     className?: string;
     collapsed?: boolean;
     flatMenuKeys?: string[];
@@ -18,7 +17,7 @@ export interface BaseMenuProps extends Partial<RouterTypes<Route>>, Omit<MenuPro
     mode?: MenuMode;
     onCollapse?: (collapsed: boolean) => void;
     onOpenChange?: (openKeys: string[]) => void;
-    openKeys?: WithFalse<String[]>;
+    openKeys?: WithFalse<string[]>;
     style?: React.CSSProperties;
     theme?: MenuTheme;
     formatMessage?: (message: MessageDescriptor) => string;
@@ -26,44 +25,47 @@ export interface BaseMenuProps extends Partial<RouterTypes<Route>>, Omit<MenuPro
     menuItemRender?: WithFalse<(item: MenuDataItem & {isUrl: boolean}, defaultDom: React.ReactNode) => React.ReactNode>;
 }
 
-const BaseMeun: React.FC<BaseMenuProps> = (props) => {
-
-    const {menuData = []} = props;
-
-    const getSubMenuOrItem = (item: MenuDataItem) =>{
-        if (
-            Array.isArray(item.children) &&
-            !item.hideChildrenInMenu &&
-            item.children.some(child => child && !!child.name)
-        ) {
-            return (
-                <SubMenu
-                    key={item.key || item.path}
-                    onTitleClick={item.onTitleClick}
-                    title={
-                        <span>
-                            <LegacyIcon type={item.icon}/>
-                            <span>{item.name}</span>
-                        </span>
-                    }
-                >
-                    {getNavMenuItems(item.children)}
-                </SubMenu>
-            );
-        }
+const getSubMenuOrItem = (item: MenuDataItem) => {
+    if (
+        Array.isArray(item.children) &&
+        !item.hideChildrenInMenu &&
+        item.children.some((child) => child && Boolean(child.name))
+    ) {
+        const navMenuItems = item.children.filter((childItem) => childItem.name && !childItem.hideInMenu)
+            .map((childItem) => getSubMenuOrItem(childItem));
         return (
-            <Menu.Item key={item.key || item.path}>
-                <LegacyIcon type={item.icon}/>
-                <span>{item.name}</span>
-            </Menu.Item>
+            <SubMenu
+                key={item.key || item.path}
+                onTitleClick={item.onTitleClick}
+                title={
+                    <span>
+                        {item.icon && React.createElement(item.icon)}
+                        <span>{item.name}</span>
+                    </span>
+                }
+            >
+                {navMenuItems}
+            </SubMenu>
         );
     }
+    return (
+        <Menu.Item key={item.key || item.path}>
+            {item.icon && React.createElement(item.icon)}
+            <span>{item.name}</span>
+        </Menu.Item>
+    );
+};
 
-    const getNavMenuItems = (menuData: MenuDataItem[]) => {
-        return menuData
-            .filter(item => item.name && !item.hideInMenu)
-            .map(item => getSubMenuOrItem(item));
-    }
+const getNavMenuItems = (menuData: MenuDataItem[]) => {
+    return menuData
+        .filter((item) => item.name && !item.hideInMenu)
+        .map((item) => {
+            return getSubMenuOrItem(item);
+        });
+};
+
+const BaseMeun: React.FC<BaseMenuProps> = (props) => {
+    const {menuData = []} = props;
 
     return (
         <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>

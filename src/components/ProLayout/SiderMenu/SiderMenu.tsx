@@ -1,14 +1,14 @@
 import React, {CSSProperties} from 'react';
 import {Layout} from 'antd';
 import BaseMeun, {BaseMenuProps} from './BaseMenu';
-import {MenuDataItem} from '@/typings';
+import {MenuDataItem, WithFalse} from '@/typings';
 import logo from '../../../assets/logo.svg';
 import styles from './index.module.less';
 
 const {Sider} = Layout;
 
 export interface SiderMenuProps extends Pick<BaseMenuProps, Exclude<keyof BaseMenuProps, ['onCollapse']>>{
-    logo?: React.ReactNode,
+    logo?: React.ReactNode | WithFalse<() => React.ReactNode>;
     siderWidth?: number,
     collapsed?: boolean;
     menuData?: MenuDataItem[];
@@ -34,6 +34,6 @@ const SiderMenu: React.FC<SiderMenuProps> = (props) => {
             <BaseMeun menuData={menuData}/>
         </Sider>
     );
-}
+};
 
 export default SiderMenu;

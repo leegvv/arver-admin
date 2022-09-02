@@ -1,9 +1,9 @@
 import * as H from 'history';
-import {RouteComponentProps as BasicRouteProps, match} from 'react-router-dom';
+import {RouterProps as BasicRouteProps} from 'react-router-dom';
 import React from 'react';
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>{
-    to: H.LocationDescriptor;
+    to: string;
     replace?: boolean;
     innerRef?: React.Ref<HTMLAnchorElement>;
 }
@@ -21,13 +21,12 @@ export interface MenuDataItem {
 }
 
 export interface Route extends MenuDataItem{
-    routes?: Route[]
+    routes: Route[]
 }
 
 export type WithFalse<T> = T | false;
 
 export interface RouterTypes<P> extends Omit<BasicRouteProps, 'location'> {
-    computeMatch?: match<P>;
     route?: Route;
     location: BasicRouteProps['location'] | {pathname?: string}
 }

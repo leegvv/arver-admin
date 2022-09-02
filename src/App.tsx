@@ -13,6 +13,6 @@ const App: React.FC = () => {
             <RouterWrapper/>
         </Provider>
     );
-}
+};
 
 export default App;

@@ -1,6 +1,5 @@
 import React, {useState, CSSProperties} from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Layout } from 'antd';
+import {Layout} from 'antd';
 import styles from './index.module.less';
 import {Helmet} from 'react-helmet';
 import SiderMenu from '@/components/ProLayout/SiderMenu';
@@ -13,20 +12,18 @@ import {useMediaQuery} from 'react-responsive';
 import classNames from 'classnames';
 import {BaseMenuProps} from '@/components/ProLayout/SiderMenu/BaseMenu';
 import {localeType} from './locales';
+import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 
 const {Header, Footer, Content} = Layout;
 
 export interface ProLayoutProps extends Partial<RouterTypes<Route>>, SiderMenuProps, Partial<Settings>{
-    logo?: React.ReactNode | WithFalse<() => React.ReactNode>;
-    route: Route,
+
+    routes: Route[],
     settings: Settings,
     locale?: localeType;
-
     onCollapse?: (collapsed: boolean) => void;
-
     menuItemRender?: BaseMenuProps['menuItemRender'];
     menuDataRender?: (menuData: MenuDataItem[]) => MenuDataItem[];
-
     formatMessage?: (message: MessageDescriptor) => string;
     /**
      * 是否禁用移动端模式，有的管理系统不需要移动端模式，此属性设置为true即可
@@ -34,16 +31,18 @@ export interface ProLayoutProps extends Partial<RouterTypes<Route>>, SiderMenuPr
     disableMobile?: boolean;
     contentStyle?: CSSProperties;
     isChildrenLayout?: boolean;
-
     className?: string;
-
     /**
      * 兼用 content的 margin
      */
     disableContentMargin?: boolean;
 }
 
-const MediaQueryEnum = {
+interface MediaQuery {
+    [key: string]: {minWidth?: number, maxWidth?: number}
+}
+
+const MediaQueryEnum: MediaQuery = {
     'screen-xs': {
         maxWidth: 575
     },
@@ -70,19 +69,16 @@ const MediaQueryEnum = {
 
 const getScreenClassName = () => {
     let className = '';
-    Object.keys(MediaQueryEnum).forEach(key => {
-        // @ts-ignore
+    Object.keys(MediaQueryEnum).forEach((key) => {
         if (useMediaQuery(MediaQueryEnum[key])) {
-            className = key
+            className = key;
         }
     });
     return className;
-}
+};
 
 const ProLayout: React.FC<ProLayoutProps> = (props) => {
-
-    const {route, menu, title, style} = props;
-    const {routes = []} = route;
+    const {routes, menu, title, style} = props;
     const intl = useIntl();
     const {menuData} = getMenuData(routes, menu, intl.formatMessage);
 
@@ -90,11 +86,11 @@ const ProLayout: React.FC<ProLayoutProps> = (props) => {
         getScreenClassName(),
         props.className,
         'ant-design-pro',
-        styles.antProBasicLayout
+        styles.proBasicLayout
     );
 
     const [collapsed, setCollapsed] = useState(false);
-    return <>
+    return (<>
         <Helmet>
             <title>Ant Design Pro Title</title>
         </Helmet>
@@ -108,11 +104,7 @@ const ProLayout: React.FC<ProLayoutProps> = (props) => {
                 <SiderMenu collapsed={collapsed} menuData={menuData} title={title}/>
                 <Layout>
                     <Header style={{background: '#fff', padding: 0}}>
-                        <LegacyIcon
-                            className='trigger'
-                            type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={() => setCollapsed(!collapsed)}
-                        />
+                        {collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                     </Header>
                     <Content
                         style={{
@@ -128,7 +120,7 @@ const ProLayout: React.FC<ProLayoutProps> = (props) => {
                 </Layout>
             </Layout>
         </div>
-    </>;
+    </>);
 };
 
 export default ProLayout;

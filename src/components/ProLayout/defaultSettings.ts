@@ -1,4 +1,4 @@
-import { MenuTheme } from 'antd/es/menu/MenuContext';
+import {MenuTheme} from 'antd/es/menu/MenuContext';
 
 export type ContentWidth = 'Fluid' | 'Fixed';
 
@@ -41,10 +41,10 @@ const defaultSettings: Settings = {
     fixedHeader: false,
     fixSiderbar: false,
     menu: {
-        locale: true,
+        locale: true
     },
     title: 'Ant Design Pro',
     iconfontUrl: '',
-    primaryColor: 'daybreak',
+    primaryColor: 'daybreak'
 };
 export default defaultSettings;

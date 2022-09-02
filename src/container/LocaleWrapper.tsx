@@ -6,12 +6,21 @@ import zhCN from '@/locales/zh-CN';
 import enUS from '@/locales/en-US';
 import antdZhCN from 'antd/lib/locale-provider/zh_CN';
 import antdEnUS from 'antd/lib/locale-provider/en_US';
+import {Locale} from 'antd/lib/locale-provider';
 
+const defaultAntd = antdZhCN;
 
-let defaultAntd = require('antd/lib/locale-provider/zh_CN');
-defaultAntd = defaultAntd.default || defaultAntd;
+interface LocaleInfo {
+    [key: string]: {
+        messages: object,
+        locale: string,
+        antd: Locale,
+        data: object,
+        momentLocale: string
+    };
+}
 
-const localeInfo = {
+const localeInfo: LocaleInfo = {
     'en-US': {
         messages: enUS,
         locale: 'en-US',
@@ -28,7 +37,11 @@ const localeInfo = {
     }
 };
 
-const LocaleWrapper : React.FC = (props) => {
+interface LocaleWrapperProps {
+    children?: React.ReactNode
+}
+
+const LocaleWrapper : React.FC<LocaleWrapperProps> = (props) => {
     const getAppLocale = () => {
         let appLocale = {
             messages: {},
@@ -38,20 +51,16 @@ const LocaleWrapper : React.FC = (props) => {
             momentLocale: 'zh-cn'
         };
 
+        const locale = String(localStorage && localStorage.getItem('arver_admin_locale'));
         if (
-            localStorage
-            && localStorage.getItem('arver_admin_locale')
-            // @ts-ignore
-            && localeInfo[localStorage.getItem('arver_admin_locale')]
+            locale &&
+            localeInfo[locale]
         ) {
-            // @ts-ignore
-            appLocale = localeInfo[localStorage.getItem('arver_admin_locale')];
+            appLocale = localeInfo[locale];
         } else if (
-            navigator
-            // @ts-ignore
-            && localeInfo[navigator.language]
+            navigator &&
+            localeInfo[navigator.language]
         ) {
-            // @ts-ignore
             appLocale = localeInfo[navigator.language];
         } else {
             appLocale = localeInfo['zh-CN'] || appLocale;

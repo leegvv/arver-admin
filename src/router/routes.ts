@@ -1,62 +1,69 @@
+import {lazy} from 'react';
+import {DashboardOutlined, SmileOutlined, FormOutlined} from '@ant-design/icons';
+
 const routes = [
     {
         path: '/',
-        component: require('../layouts/BlankLayout').default,
+        component: lazy(() => import('../layouts/BlankLayout')),
         routes: [
             {
                 path: '/user',
-                component: require('../layouts/UserLayout').defalut
+                component: lazy(() => import('../layouts/UserLayout')),
+                routes: [
+                    {
+                        name: 'login',
+                        icon: SmileOutlined,
+                        path: '/user/login',
+                        component: lazy(() => import('../pages/Login'))
+                    }
+                ]
             },
             {
                 path: '/',
-                component: require('../layouts/BasicLayout').default,
+                component: lazy(() => import('../layouts/BasicLayout')),
                 routes: [
                     {
                         path: '/dashboard',
                         name: 'dashboard',
-                        icon: 'dashboard',
+                        icon: DashboardOutlined,
                         routes: [
                             {
                                 name: 'analysis',
-                                icon: 'smile',
+                                icon: SmileOutlined,
                                 path: '/dashboard/analysis',
-                                component: require('../pages/dashboard/analysis').default,
-                                exact: true
+                                component: lazy(() => import('../pages/dashboard/analysis'))
                             },
                             {
                                 name: 'monitor',
-                                icon: 'smile',
+                                icon: SmileOutlined,
                                 path: '/dashboard/monitor',
-                                component: require('../pages/dashboard/monitor').default,
-                                exact: true,
+                                component: lazy(() => import('../pages/dashboard/monitor'))
                             },
                             {
                                 name: 'workplace',
-                                icon: 'smile',
+                                icon: SmileOutlined,
                                 path: '/dashboard/workplace',
-                                component: require('../pages/dashboard/workplace').default,
-                                exact: true,
-                            },
+                                component: lazy(() => import('../pages/dashboard/workplace'))
+                            }
                         ]
                     },
                     {
                         path: '/form',
-                        icon: 'form',
+                        icon: FormOutlined,
                         name: 'form',
                         routes: [
                             {
                                 name: 'basic-form',
-                                icon: 'smile',
+                                icon: SmileOutlined,
                                 path: '/form/basic-form',
-                                component: require('../pages/form/basic-form').default,
-                                exact: true,
+                                component: lazy(() => import('../pages/form/basic-form'))
                             }
                         ]
                     }
                 ]
             }
         ]
-    },
+    }
 ];
 
 export default routes;

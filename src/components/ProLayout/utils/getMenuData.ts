@@ -1,5 +1,5 @@
 import {MenuDataItem, Route, MessageDescriptor} from '@/typings';
-import {Settings} from '../defaultSettings'
+import {Settings} from '../defaultSettings';
 
 interface FormatterProps {
     data: MenuDataItem[];
@@ -10,7 +10,7 @@ interface FormatterProps {
 
 const formatter = (props: FormatterProps): MenuDataItem[] => {
     const {data = [], menu, formatMessage, parentName} = props;
-    return data.filter(item => item && item.name && item.path)
+    return data.filter((item) => item && item.name && item.path)
         .map((item = {path: ''}) => {
             const {name} = item;
             if (!name) {
@@ -18,9 +18,9 @@ const formatter = (props: FormatterProps): MenuDataItem[] => {
             }
             const locale = `${parentName || 'menu'}.${name}`;
             const localeName =
-                menu.locale || !formatMessage
-                    ? name
-                    : formatMessage({ id: locale, defaultMessage: name });
+                menu.locale || !formatMessage ?
+                    name :
+                    formatMessage({id: locale, defaultMessage: name});
 
             const result: MenuDataItem = {
                 ...item,
@@ -38,30 +38,30 @@ const formatter = (props: FormatterProps): MenuDataItem[] => {
             }
             return result;
         });
-
 };
 
 const defaultFilterMenuData = (menuData: MenuDataItem[] = []): MenuDataItem[] => {
     return menuData
-        .filter((item => item && item.name && !item.hideInMenu))
-        .map(item => {
+        .filter(((item) => item && item.name && !item.hideInMenu))
+        .map((item) => {
             if (
                 item.children &&
                 Array.isArray(item.children) &&
                 !item.hideChildrenInMenu &&
-                item.children.some(child => child && !!child.name)
+                item.children.some((child) => child && Boolean(child.name))
             ) {
                 const children = defaultFilterMenuData(item.children);
                 if (children.length) {
                     return {...item, children};
                 }
             }
-            return {...item, children: undefined};
-        }).filter(item => item);
+            const {children, ...extra} = item;
+            return extra;
+        }).filter((item) => item);
 };
 
 const getMenuData = (routes: Route[], menu?: {locale: boolean}, formatMessage?: (message: MessageDescriptor) => string) => {
-    let orginalMenuData = formatter({
+    const orginalMenuData = formatter({
         data: routes,
         formatMessage,
         menu: menu || {locale: false}
