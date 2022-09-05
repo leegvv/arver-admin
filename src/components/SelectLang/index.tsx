@@ -60,7 +60,6 @@ export const SelectLang: React.FC = () => {
                 <i className='anticon'>
                     <svg
                         viewBox='0 0 24 24'
-                        focusable='false'
                         width='1em'
                         height='1em'
                         fill='currentColor'

@@ -1,6 +1,5 @@
 import React from 'react';
-import ProLayout from '@/components/ProLayout';
-import {ProLayoutProps} from '@/components/ProLayout/ProLayout';
+import {ProLayout, ProLayoutProps} from '@/components';
 import {connect} from 'react-redux';
 import {ConnectState} from '@/models/connect';
 import {Outlet} from 'react-router-dom';
