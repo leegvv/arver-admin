@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 
 export interface RouteProps {
@@ -63,9 +63,11 @@ const renderRoutes = (routes: RouteProps[]|undefined) => {
     const routeArray = genRouteArray(routes);
 
     return (
-        <Routes>
-            {routeArray}
-        </Routes>
+        <Suspense fallback={<h2>Loading</h2>}>
+            <Routes>
+                {routeArray}
+            </Routes>
+        </Suspense>
     );
 };
 
