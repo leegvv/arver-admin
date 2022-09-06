@@ -36,13 +36,10 @@ module.exports = {
         ]
     },
     devServer: (devServerConfig, {proxy}) => {
-        /*devServerConfig.before = (app) => {
-            devServerBefore(app);
-        };*/
         devServerConfig.proxy = {
             ...proxy,
             '/api/': {
-                target: 'http://localhost:8080',
+                target: 'https://proapi.azurewebsites.net',
                 changeOrigin: true
             }
         };
